@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJC Air Maintenance Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<<body class="bg-slate-900 p-4 md:p-8 text-slate-100">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-white uppercase tracking-tight">
+                BJC DHL LOGISTICS SOLUTION LIMITED
+            </h1>
+            <div class="flex items-center gap-2 mt-2">
+                <span class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></span>
+                <p class="text-slate-400 font-medium uppercase text-xs tracking-widest">
+                    Real-time Maintenance Intelligence
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+            <a href="entry.html" class="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 px-6 rounded-xl shadow-lg transition-all active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                บันทึกงานซ่อมใหม่
+            </a>
+
+            <a href="admin.html" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-xl border border-slate-700 shadow-lg transition-all active:scale-95">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                จัดการสถานะงาน
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <h3 class="text-slate-400 text-sm font-medium uppercase">งานซ่อมเดือนนี้</h3>
+            <p id="monthTotal" class="text-5xl font-bold text-amber-500 mt-3">0</p>
+            <p class="text-xs text-slate-500 mt-2">อัปเดตล่าสุด: เมื่อสักครู่</p>
+        </div>
+
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="text-slate-400 text-sm font-medium uppercase">สถานะรอดำเนินการ</h3>
+            <p id="pendingTotal" class="text-5xl font-bold text-red-500 mt-3">0</p>
+            <p class="text-xs text-slate-500 mt-2">ต้องเร่งดำเนินการแก้ไข</p>
+        </div>
+
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="text-slate-400 text-sm font-medium uppercase">งบประมาณสะสม (YTD)</h3>
+            <p id="totalCost" class="text-5xl font-bold text-emerald-500 mt-3">0K</p>
+            <p class="text-xs text-slate-500 mt-2">รวมค่าใช้จ่ายทุก Site</p>
+        </div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl" style="height: 400px;">
+        <h3 class="text-white mb-4">สถิติงานซ่อมแยกตาม Site</h3>
+        <canvas id="siteChart"></canvas>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl" style="height: 400px;">
+        <h3 class="text-white mb-4">สัดส่วนอาการเสีย</h3>
+        <canvas id="issueChart"></canvas>
+    </div>
+</div>
+
+    <script>
+    // 1. ใส่ URL เว็บแอปของคุณนิกกี้ตรงนี้ (ใช้ตัวเดียวกับที่ทำให้หน้า Entry/Admin ผ่านนะครับ)
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxvXFopdJpFZusIl956IbMr2HLPVmxZF28RiogjO8NuXQ5fqf9wTYbeTuZjbApYniOyNg/exec'; 
+
+    let siteChart, issueChart; // ตัวแปรสำหรับเก็บกราฟ
+
+    // 2. ฟังก์ชันดึงข้อมูล Dashboard (Real-time)
+    function loadDashboardData() {
+        console.log("กำลังดึงข้อมูล Dashboard (Real-time)...");
+        // เจมเพิ่มตัวแจ้งเตือน Loading ชั่วคราวเพื่อให้รู้ว่าระบบกำลังทำงาน
+        document.body.style.cursor = 'wait';
+        
+        fetch(scriptURL + '?mode=dashboard')
+            .then(res => res.json())
+            .then(data => {
+                // คืนค่าเคอร์เซอร์
+                document.body.style.cursor = 'default';
+                console.log("โหลดข้อมูลสำเร็จ:", data);
+
+                // อัปเดตตัวเลข KPI บนหน้าจอ
+                // เช็คว่าใน HTML มี <p id="monthTotal" ...>0</p> แล้วใช่ไหมครับ
+                document.getElementById('monthTotal').innerText = data.monthTotal;
+                document.getElementById('pendingTotal').innerText = data.pendingTotal;
+                
+                // แปลงงบประมาณเป็นหน่วย K (เช่น 1500 -> 1.5K)
+                const costK = (data.totalCost / 1000).toFixed(1);
+                document.getElementById('totalCost').innerText = costK + 'K';
+
+                // อัปเดตกราฟทั้งสอง
+                updateSiteChart(data.siteStats);
+                updateIssueChart(data.issueStats);
+            })
+            .catch(err => {
+                document.body.style.cursor = 'default';
+                console.error("Dashboard Load Error:", err);
+            });
+    }
+
+    // 3. ฟังก์ชันสร้างกราฟแท่ง (Site) - ปรับปรุงความสวยงาม
+    function updateSiteChart(stats) {
+        const ctxSite = document.getElementById('siteChart').getContext('2d');
+        if (siteChart) siteChart.destroy(); // ลบกราฟเก่าก่อนสร้างใหม่
+
+        // ชุดสีโมเดิร์น (Tailwind-style) สำหรับแต่ละแท่ง
+        const barColors = [
+            '#fb923c', // NDC (Orange)
+            '#60a5fa', // LDC (Blue)
+            '#fcd34d', // BDC4 (Amber)
+            '#4ade80', // HBL (Emerald)
+            '#c084fc'  // DG (Purple)
+        ];
+        
+        siteChart = new Chart(ctxSite, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(stats),
+                datasets: [{
+                    label: 'จำนวนครั้ง',
+                    data: Object.values(stats),
+                    backgroundColor: barColors, // ใช้ชุดสีที่แตกต่างกัน
+                    borderRadius: 12, // ปลายแท่งโค้งมนมากขึ้น
+                    borderWidth: 0,
+                    barThickness: 'flex', // ปรับความกว้างให้ยืดหยุ่น
+                    hoverOffset: 10 // เอฟเฟกต์เวลาเอาเมาส์ไปชี้
+                }]
+            },
+            options: { 
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false }, // ซ่อน Legend เพื่อความสะอาด
+                    tooltip: { backgroundColor: '#1e293b', titleFont: { size: 14 } } // ปรับแต่ง Tooltip
+                },
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { color: 'rgba(51, 65, 85, 0.5)' }, // เส้นตารางสีจางๆ
+                        ticks: { color: '#94a3b8', font: { size: 11 }, stepSize: 1 } 
+                    },
+                    x: { 
+                        grid: { display: false }, 
+                        ticks: { color: '#ffffff', font: { size: 12, weight: '500' } } 
+                    }
+                } 
+            }
+        });
+    }
+
+    // 4. ฟังก์ชันสร้างกราฟวงกลม (Breakdown) - ปรับปรุงความสวยงาม + เพิ่มตัวเลขกลางวง
+    function updateIssueChart(stats) {
+        const ctxIssue = document.getElementById('issueChart').getContext('2d');
+        if (issueChart) issueChart.destroy();
+
+        // ชุดสีที่แตกต่างและสดใสสำหรับอาการเสียต่างๆ
+        const doughnutPalette = [
+            '#10b981', // Emerald-500
+            '#3b82f6', // Blue-500
+            '#f59e0b', // Amber-500
+            '#ef4444', // Red-500
+            '#8b5cf6', // Violet-500
+            '#06b6d4', // Cyan-500
+            '#ec4899', // Pink-500
+            '#94a3b8'  // Slate-500
+        ];
+
+        issueChart = new Chart(ctxIssue, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(stats),
+                datasets: [{
+                    data: Object.values(stats),
+                    backgroundColor: doughnutPalette,
+                    borderWidth: 0,
+                    hoverOffset: 15 // เอฟเฟกต์เวลาเอาเมาส์ไปชี้
+                }]
+            },
+            options: { 
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { 
+                        position: 'bottom', 
+                        labels: { color: '#94a3b8', font: { size: 10 }, padding: 15 } 
+                    },
+                    tooltip: { backgroundColor: '#1e293b' }
+                },
+                cutout: '70%', // เพิ่มพื้นที่ตรงกลางวงแหวน
+                // ส่วนนี้คือ "ไม้ตาย" สำหรับเพิ่มตัวเลขรวมกลางวง
+                animation: {
+                    onComplete: function(chart) {
+                        const ctx = chart.chart.ctx;
+                        ctx.save();
+                        const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+                        const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+                        const totalRepairs = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+
+                        // วาดตัวเลขรวม
+                        ctx.font = 'bold 3.5rem Prompt'; // ตัวเลขใหญ่
+                        ctx.fillStyle = '#ffffff'; // สีขาว
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(totalRepairs, centerX, centerY - 15);
+
+                        // วาดป้ายกำกับ
+                        ctx.font = '600 0.9rem Prompt'; // ป้ายกำกับเล็ก
+                        ctx.fillStyle = '#94a3b8'; // สีSlate
+                        ctx.fillText('งานซ่อมสะสม', centerX, centerY + 30);
+                        ctx.restore();
+                    }
+                }
+            }
+        });
+    }
+
+    // เรียกทำงานทันทีเมื่อเปิดหน้าเว็บ
+    window.onload = loadDashboardData;
+</script>
+</body>
+</html>
