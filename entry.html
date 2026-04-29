@@ -108,7 +108,7 @@
                 ยืนยันการบันทึกข้อมูล
             </button>
             
-            <a href="dashboard.html" class="block text-center text-slate-500 text-sm hover:text-white">ยกเลิกและกลับหน้าหลัก</a>
+            <a href="index.html" class="block text-center text-slate-500 text-sm hover:text-white">ยกเลิกและกลับหน้าหลัก</a>
         </form>
     </div>
 
@@ -186,7 +186,7 @@
         .then(res => {
             alert('บันทึกข้อมูลสำเร็จ! (ข้อมูลกำลังเดินทางไปที่ Sheets)');
             form.reset();
-            window.location.href = 'dashboard.html';
+            window.location.href = 'index.html';
         })
         .catch(error => {
             alert('เกิดข้อผิดพลาด: ' + error.message);
